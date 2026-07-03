@@ -47,6 +47,7 @@ class KaryawanController extends Controller
     public function update(Request $request, int $id)
     {
         $karyawan = Karyawan::findOrFail($id);
+        $original = $karyawan->getOriginal();
 
         $validated = $this->validateKaryawan($request, $karyawan);
 
@@ -59,7 +60,29 @@ class KaryawanController extends Controller
 
         $karyawan->update($validated);
 
-        ActivityLog::record('update', "Memperbarui karyawan \"{$karyawan->name}\" ({$karyawan->employee_id})");
+        $changes = $karyawan->getChanges();
+        if (array_key_exists('is_active', $changes)) {
+            $original['is_active'] = $original['is_active'] ? 'Aktif' : 'Tidak Aktif';
+            $changes['is_active'] = $changes['is_active'] ? 'Aktif' : 'Tidak Aktif';
+        }
+        if (array_key_exists('gender', $changes)) {
+            $original['gender'] = $original['gender'] === 'P' ? 'Perempuan' : 'Laki-laki';
+            $changes['gender'] = $changes['gender'] === 'P' ? 'Perempuan' : 'Laki-laki';
+        }
+
+        $detail = ActivityLog::describeChanges($original, $changes, [
+            'employee_id' => 'ID Karyawan',
+            'name' => 'Nama',
+            'gender' => 'Jenis Kelamin',
+            'email' => 'Email',
+            'phone' => 'Telepon',
+            'department' => 'Departemen',
+            'join_date' => 'Tanggal Bergabung',
+            'is_active' => 'Status',
+            'photo' => 'Foto',
+        ], sensitive: ['photo']);
+
+        ActivityLog::record('update', "Memperbarui karyawan \"{$karyawan->name}\" ({$karyawan->employee_id}) — {$detail}");
 
         alert()->success('Berhasil', 'Data karyawan berhasil diperbarui');
         return redirect()->route('karyawan.index');
@@ -86,6 +109,7 @@ class KaryawanController extends Controller
         return $request->validate([
             'employee_id' => 'required|string|max:50|unique:karyawans,employee_id,' . ($karyawan->id ?? 'NULL'),
             'name' => 'required|string|max:150',
+            'gender' => 'required|in:L,P',
             'email' => 'required|email|max:150|unique:karyawans,email,' . ($karyawan->id ?? 'NULL'),
             'phone' => 'required|string|max:20',
             'department' => 'required|string|max:100',

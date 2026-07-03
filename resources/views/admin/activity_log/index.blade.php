@@ -35,6 +35,10 @@
                                                     <span class="badge bg-warning text-dark">Edit</span>
                                                 @elseif ($log->action === 'delete')
                                                     <span class="badge bg-danger">Hapus</span>
+                                                @elseif ($log->action === 'login')
+                                                    <span class="badge bg-info text-dark">Login</span>
+                                                @elseif ($log->action === 'logout')
+                                                    <span class="badge bg-secondary">Logout</span>
                                                 @else
                                                     <span class="badge bg-secondary">{{ ucfirst($log->action) }}</span>
                                                 @endif

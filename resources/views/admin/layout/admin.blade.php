@@ -176,7 +176,6 @@
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-    <script src="{{ asset('/backend/assets/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="{{ asset('/backend/assets/vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('/backend/assets/vendor/js/bootstrap.js') }}"></script>
     <script src="{{ asset('/backend/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
@@ -320,7 +319,6 @@
         });
     </script>
 
-    <script src="{{ asset('/backend/assets/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -367,9 +365,6 @@
     </script>
 
 </body>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 {{-- SCRIPT PRODUCT --}}
 <script>
     $(document).ready(function() {

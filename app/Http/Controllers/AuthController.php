@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\ActivityLog;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -52,6 +53,8 @@ class AuthController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
+        ActivityLog::record('login', "Login sebagai \"{$user->name}\" ({$user->email})");
+
         alert()->success('Berhasil Login', 'Selamat datang di Okeev');
 
         // Redirect ke intended URL jika ada
@@ -76,6 +79,11 @@ class AuthController extends Controller
     // LOGOUT ADMIN
     public function logout(Request $request)
     {
+        $user = Auth::user();
+        if ($user) {
+            ActivityLog::record('logout', "Logout dari \"{$user->name}\" ({$user->email})");
+        }
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

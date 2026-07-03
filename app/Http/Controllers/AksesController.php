@@ -41,6 +41,7 @@ class AksesController extends Controller
     public function update(Request $request, int $id)
     {
         $user = User::findOrFail($id);
+        $original = $user->getOriginal();
 
         $validated = $this->validateAkses($request, $user);
 
@@ -54,7 +55,20 @@ class AksesController extends Controller
 
         $user->save();
 
-        ActivityLog::record('update', "Memperbarui akses pengguna \"{$user->name}\" ({$user->email})");
+        $changes = $user->getChanges();
+        if (array_key_exists('role_id', $changes)) {
+            $original['role_id'] = $original['role_id'] == 1 ? 'Admin' : 'User';
+            $changes['role_id'] = $changes['role_id'] == 1 ? 'Admin' : 'User';
+        }
+
+        $detail = ActivityLog::describeChanges($original, $changes, [
+            'name' => 'Nama',
+            'email' => 'Email',
+            'role_id' => 'Role',
+            'password' => 'Password',
+        ], sensitive: ['password']);
+
+        ActivityLog::record('update', "Memperbarui akses pengguna \"{$user->name}\" ({$user->email}) — {$detail}");
 
         alert()->success('Berhasil', 'Akses pengguna berhasil diperbarui');
         return redirect()->route('akses.index');

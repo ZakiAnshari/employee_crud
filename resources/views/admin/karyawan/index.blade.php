@@ -75,6 +75,24 @@
 
                                                     <div class="col-lg-6">
                                                         <div class="mb-3">
+                                                            <label class="form-label fw-semibold">Jenis Kelamin</label>
+                                                            <select name="gender"
+                                                                class="form-control @error('gender') is-invalid @enderror">
+                                                                <option value="" disabled {{ old('gender') ? '' : 'selected' }}>
+                                                                    Pilih Jenis Kelamin</option>
+                                                                <option value="L" {{ old('gender') == 'L' ? 'selected' : '' }}>
+                                                                    Laki-laki</option>
+                                                                <option value="P" {{ old('gender') == 'P' ? 'selected' : '' }}>
+                                                                    Perempuan</option>
+                                                            </select>
+                                                            @error('gender')
+                                                                <small class="text-danger">{{ $message }}</small>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
                                                             <label class="form-label fw-semibold">Email</label>
                                                             <input type="email" name="email"
                                                                 class="form-control @error('email') is-invalid @enderror"
@@ -266,6 +284,18 @@
                                                                     Karyawan</label>
                                                                 <input type="text" name="name" class="form-control"
                                                                     value="{{ $item->name }}">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label fw-semibold">Jenis Kelamin</label>
+                                                                <select name="gender" class="form-control">
+                                                                    <option value="L" {{ $item->gender == 'L' ? 'selected' : '' }}>
+                                                                        Laki-laki</option>
+                                                                    <option value="P" {{ $item->gender == 'P' ? 'selected' : '' }}>
+                                                                        Perempuan</option>
+                                                                </select>
                                                             </div>
                                                         </div>
 

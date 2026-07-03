@@ -35,6 +35,10 @@
                                 <td>: {{ $karyawan->name }}</td>
                             </tr>
                             <tr>
+                                <th>Jenis Kelamin</th>
+                                <td>: {{ $karyawan->gender === 'P' ? 'Perempuan' : ($karyawan->gender === 'L' ? 'Laki-laki' : '-') }}</td>
+                            </tr>
+                            <tr>
                                 <th>Email</th>
                                 <td>: {{ $karyawan->email }}</td>
                             </tr>
