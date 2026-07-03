@@ -1,59 +1,211 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Employee Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/5070ef25-bfc5-44c0-8e07-9bc0883534ef" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/d12f9548-2006-41f7-8e6d-df9c89c68e8f" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/6510bafc-554e-4849-b189-635d6ee70802" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/97bf44dc-3701-49b5-b53b-5cf7bc91141f" />
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Dokumentasi project untuk Coding Test — PT. Asuransi Jasa Indonesia.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Daftar Isi
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- [1. ERD (Entity Relationship Diagram)](#1-erd-entity-relationship-diagram)
+- [2. Dokumentasi API](#2-dokumentasi-api)
+- [3. Cara Instalasi Aplikasi](#3-cara-instalasi-aplikasi)
+- [4. Cara Menjalankan Aplikasi](#4-cara-menjalankan-aplikasi)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 1. ERD (Entity Relationship Diagram)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Aplikasi ini memiliki 4 entitas utama yang saling berhubungan.
 
-## Laravel Sponsors
+### a. Roles (Peran)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Menyimpan data peran pengguna, yaitu **Admin** dan **User** biasa.
 
-### Premium Partners
+| Kolom | Keterangan |
+|---|---|
+| `id` | Primary key |
+| `name` | Nama role (admin / user) |
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Satu role bisa dimiliki oleh banyak user *(relasi one-to-many ke tabel Users)*.
 
-## Contributing
+### b. Users (Pengguna Sistem)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Menyimpan akun yang bisa login ke sistem.
 
-## Code of Conduct
+| Kolom | Keterangan |
+|---|---|
+| `id` | Primary key |
+| `name` | Nama pengguna |
+| `email` | Email (unik) |
+| `password` | Password (hashed) |
+| `role_id` | Foreign key ke tabel Roles — menentukan apakah user itu Admin atau User biasa |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Satu user bisa memiliki banyak catatan di tabel Activity Logs *(relasi one-to-many)*.
 
-## Security Vulnerabilities
+### c. Karyawans (Data Karyawan)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Menyimpan data master karyawan perusahaan.
 
-## License
+| Kolom | Keterangan |
+|---|---|
+| `id` | Primary key |
+| `employee_id` | ID karyawan (unik) |
+| `name` | Nama karyawan |
+| `gender` | Laki-laki / Perempuan |
+| `email` | Email (unik) |
+| `phone` | Nomor telepon |
+| `department` | Departemen |
+| `join_date` | Tanggal bergabung |
+| `is_active` | Status aktif/nonaktif |
+| `photo` | Foto karyawan |
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+> Tabel ini berdiri sendiri — tidak berelasi langsung ke tabel Users, karena data karyawan adalah data operasional perusahaan, bukan akun login.
+
+### d. Activity Logs (Log Aktivitas)
+
+Mencatat setiap aktivitas penting yang dilakukan user yang login: login, tambah data, update data, dan hapus data.
+
+| Kolom | Keterangan |
+|---|---|
+| `id` | Primary key |
+| `user_id` | Foreign key ke Users — siapa yang melakukan aksi |
+| `action` | Jenis aktivitas |
+| `description` | Keterangan detail |
+| `created_at` | Waktu aktivitas |
+
+Relasinya **one-to-many** dari Users ke Activity Logs — satu user bisa punya banyak log, dan kalau user tersebut dihapus, seluruh log miliknya ikut terhapus otomatis (*cascade delete*).
+
+### Ringkasan Relasi
+
+- Satu **Role** dipakai banyak **User** (1 admin/user bisa banyak akun dengan role sama)
+- Satu **User** menghasilkan banyak **Activity Log** (jejak aktivitas yang dia lakukan)
+- **Karyawan** adalah entitas independen, tidak terikat ke akun User manapun — murni data kepegawaian yang dikelola oleh Admin lewat menu Manajemen Karyawan
+
+```
+Roles (1) ──────< (N) Users (1) ──────< (N) Activity Logs
+
+Karyawans (independen, tidak terhubung ke Users)
+```
+
+---
+
+## 2. Dokumentasi API
+
+**Base URL:** `http://<domain-anda>/api`
+**Autentikasi:** JWT Bearer Token (`Authorization: Bearer <token>`)
+**Format:** JSON request & response
+
+### Autentikasi
+
+| Method | Endpoint | Auth | Keterangan |
+|---|---|---|---|
+| POST | `/auth/login` | - | Login, body: `email`, `password` → return `access_token` |
+| GET | `/auth/me` | Bearer | Profil user yang sedang login |
+| POST | `/auth/logout` | Bearer | Logout (token di-blacklist) |
+| POST | `/auth/refresh` | Bearer | Perpanjang token |
+
+> Login berlaku maksimal 5 percobaan/menit per email (anti brute-force).
+
+### Data Karyawan
+
+| Method | Endpoint | Auth | Keterangan |
+|---|---|---|---|
+| GET | `/employees` | Semua user login | List karyawan (pagination 10/halaman) |
+| GET | `/employees/{id}` | Semua user login | Detail 1 karyawan |
+| POST | `/employees` | Admin only | Tambah karyawan |
+| PUT | `/employees/{id}` | Admin only | Update karyawan |
+| DELETE | `/employees/{id}` | Admin only | Hapus karyawan |
+
+**Field body (POST/PUT):** `employee_id`, `name`, `gender` (L/P), `email`, `phone`, `department`, `join_date` (YYYY-MM-DD), `is_active` (boolean)
+
+### Format Response
+
+**Sukses:**
+```json
+{ "status": true, "message": "...", "data": { ... } }
+```
+
+**Error** — semua konsisten format `status` + `message`:
+
+| Kode | Kondisi |
+|---|---|
+| 401 | Belum login / token tidak valid |
+| 403 | Tidak punya izin (bukan admin) |
+| 404 | Data tidak ditemukan |
+| 422 | Validasi gagal (`errors` berisi detail per field) |
+| 429 | Terlalu banyak percobaan |
+| 500 | Error server |
+
+**Contoh:**
+```json
+{ "status": false, "message": "Employee not found" }
+```
+
+---
+
+## 3. Cara Instalasi Aplikasi
+
+**Kebutuhan:** PHP ≥ 8.2, Composer, Node.js ≥ 18, MySQL, ekstensi PHP `sodium` aktif (untuk JWT).
+
+```bash
+# 1. Clone / salin project, lalu masuk ke foldernya
+cd employee-management-system
+
+# 2. Install dependency PHP
+composer install
+
+# 3. Salin file environment & generate app key
+cp .env.example .env
+php artisan key:generate
+
+# 4. Atur koneksi database di .env
+#    DB_CONNECTION=mysql
+#    DB_HOST=127.0.0.1
+#    DB_PORT=3306
+#    DB_DATABASE=db_employee_system   (buat database ini dulu di MySQL)
+#    DB_USERNAME=root
+#    DB_PASSWORD=
+
+# 5. Generate JWT secret (untuk REST API)
+php artisan jwt:secret
+
+# 6. Jalankan migration + seeder (buat tabel & data awal: role, admin, 30 karyawan contoh)
+php artisan migrate --seed
+
+# 7. Buat symlink storage (agar foto karyawan bisa diakses)
+php artisan storage:link
+
+# 8. Install dependency frontend & build asset
+npm install
+npm run build
+```
+
+---
+
+## 4. Cara Menjalankan Aplikasi
+
+### Opsi A — pakai `artisan serve` (paling mudah)
+
+```bash
+php artisan serve
+```
+Buka `http://127.0.0.1:8000`
+
+### Opsi B — pakai Laragon (Apache otomatis)
+
+Cukup jalankan Laragon (**Start All**), lalu akses lewat virtual host, contoh:
+`http://employee-management-system.test`
+
+### Mode Development
+
+Untuk mode development (auto-reload asset saat CSS/JS diedit):
+
+```bash
+npm run dev
+```
+
+Jalankan bersamaan dengan `php artisan serve` di terminal terpisah.
