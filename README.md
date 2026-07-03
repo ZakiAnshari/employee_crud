@@ -209,3 +209,13 @@ npm run dev
 ```
 
 Jalankan bersamaan dengan `php artisan serve` di terminal terpisah.
+
+
+AKSES LOGIN : 
+|---|---|---|
+| Admin | admin@gmail.com | 12345678 |
+| User | user@gmail.com | user123 |
+ 
+
+
+
